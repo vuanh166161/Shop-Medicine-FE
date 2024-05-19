@@ -17,9 +17,10 @@ import Cookies from 'js-cookie'; // Thêm dòng này
 const SignInPage = () => {
     const [showPassword, setShowPassword] = useState(false); // State để theo dõi trạng thái ẩn/hiện của password
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
     const location = useLocation()
 
-    const dispatch =useDispatch();
+    const dispatch = useDispatch();
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword); // Đảo ngược trạng thái ẩn/hiện password
@@ -27,7 +28,7 @@ const SignInPage = () => {
     const handleNavigateSignUp = () => {
         navigate('/sign-up')
     }
-   
+
     const [email, setEmail] = useState('')
     const handleOnchangeEmail = (value) => {
         setEmail(value)
@@ -42,36 +43,39 @@ const SignInPage = () => {
         data => UserService.signinUser(data)
     )
 
-    const {data, isSuccess, isError} = mutation
+    const { data, isSuccess, isError } = mutation
+
 
     useEffect(() => {
-        if(isSuccess){
-            if(location?.state){
-                navigate(location?.state)
-            }else{
-                navigate('/')
-            }
-            Cookies.set('access_token', data?.access_token); 
+        if (!isSuccess || data?.status === 'ERR') {
+            return navigate('/sign-in')
+        } else {
+            navigate('/')
+            Cookies.set('access_token', data?.access_token);
             localStorage.setItem('access_token', JSON.stringify(data?.access_token))
             Cookies.set('refresh_token', data?.refresh_token);
             localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
-            if(data?.access_token) {
+            if (data?.access_token) {
                 const decoded = jwtDecode(data?.access_token);
-                if(decoded?.id) {
+                if (decoded?.id) {
                     handleGetDetailsUser(decoded?.id, data?.access_token)
                 }
             }
         }
-    },[isSuccess])
+        setLoading(false);
+    }, [isSuccess, location, navigate, data])
+
+
 
     const handleGetDetailsUser = async (id, token) => {
-        const storage = localStorage.getItem('refresh_token')
-        const refreshToken = JSON.parse(storage)
+        // const storage = localStorage.getItem('refresh_token')
+        // const refreshToken = JSON.parse(storage)
         const res = await UserService.getDetailsUser(id, token)
-        dispatch(updateUser({...res?.data, access_token: token, refreshToken}))
+        dispatch(updateUser({ ...res?.data, access_token: token}))
     }
 
     const handleSignIn = () => {
+        setLoading(true);
         mutation.mutate({
             email,
             password
@@ -84,9 +88,9 @@ const SignInPage = () => {
             <div className="main-agileinfo">
                 <div className="agileits-top">
                     <form>
-                        <InputForm placeholder="Email" value={email} onChange={handleOnchangeEmail}/>
+                        <InputForm placeholder="Email" value={email} onChange={handleOnchangeEmail} />
                         <div className="password-input">
-                            <InputForm type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={handleOnchangePassword}/>
+                            <InputForm type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={handleOnchangePassword} />
                             <span className="toggle-password" onClick={togglePasswordVisibility}>
                                 {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
                             </span>
@@ -94,11 +98,12 @@ const SignInPage = () => {
                         <div className="wthree-text">
                             <div className="clear"></div>
                         </div>
-                        <>
-                        {data?.status === 'ERR' && <span style={{color:'red'}}>{data?.message}</span>}
-                        <ButtonCom
-                        disabled={!email.length || !password.length }
-                        onClick={handleSignIn}
+                        <div>
+                            {loading && <LoadingComponent />}
+                            {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
+                            <ButtonCom
+                                disabled={!email.length || !password.length}
+                                onClick={handleSignIn}
                                 size={40}
                                 styleButton={{
                                     background: '#76b852',
@@ -111,9 +116,9 @@ const SignInPage = () => {
                                 textbutton={'Sign In'}
                                 styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
                             ></ButtonCom>
-                        </>
+                        </div>
                     </form>
-                    <p>Don't have an Account? <span onClick={handleNavigateSignUp} style={{cursor:'pointer', color:'white'}}>Create!</span></p>
+                    <p>Don't have an Account? <span onClick={handleNavigateSignUp} style={{ cursor: 'pointer', color: 'white' }}>Create!</span></p>
                     <p>Forgot password?</p>
                 </div>
             </div>

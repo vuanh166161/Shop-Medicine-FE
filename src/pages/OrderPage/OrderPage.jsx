@@ -40,6 +40,20 @@ const mutationUpdate = useMutationHooks(
      return res
   }
 )  
+
+// useEffect(() => {
+//   const userCart = localStorage.getItem(user.id); // Lấy thông tin giỏ hàng từ local storage
+//   if (userCart) {
+//     dispatch(updateUser({ cart: JSON.parse(userCart) }));
+//   }
+// }, [user.id, dispatch]);
+
+// useEffect(() => {
+//   return () => {
+//     localStorage.setItem(user.id, JSON.stringify(order.orderItems)); // Lưu thông tin giỏ hàng vào local storage
+//   };
+// }, [order.orderItems, user.id]);
+
  const onChange = (e) => {
     if(listChecked.includes(e.target.value)){
       const newListChecked = listChecked.filter((item) => item !== e.target.value)
@@ -181,16 +195,16 @@ const handleChangeAddress = () => {
 const itemsDelivery = [
   {
     title: '20.000 VND',
-    description: 'Dưới 200.000 VND',
+    description: 'Under 200.000 VND',
   },
   {
     title: '10.000 VND',
-    description: 'Tu 200.000 VND',
+    description: 'Over 200.000 VND',
     subTitle: 'Left 00:00:08'
   },
   {
     title: '0 VND',
-    description:'Tu 500.000 VND'
+    description:'From 500.000 VND'
   }
 ]
 
@@ -207,12 +221,12 @@ const itemsDelivery = [
             <WrapperStyleHeader>
                 <span style={{display: 'inline-block', width: '390px'}}>
                   <Checkbox onChange={handleOnchangeCheckAll} checked={listChecked?.length === order?.orderItems?.length}></Checkbox>
-                  <span> Tất cả ({order?.orderItems?.length} sản phẩm)</span>
+                  <span> All ({order?.orderItems?.length} item)</span>
                 </span>
                 <div style={{flex:1,display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                  <span>Đơn giá</span>
-                  <span>Số lượng</span>
-                  <span>Thành tiền</span>
+                  <span>Unit price</span>
+                  <span>Quantity</span>
+                  <span>Subtotal</span>
                   <DeleteOutlined onClick={handleDeleteAll} style={{cursor: 'pointer'}}/>
                 </div>
             </WrapperStyleHeader>
@@ -257,23 +271,23 @@ const itemsDelivery = [
               </WrapperInfo>
               <WrapperInfo style={{width:'auto'}}>
                 <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                  <span>Tạm tính</span>
+                  <span>Subtotal</span>
                   <span style={{color: '#000', fontSize: '14px', fontWeight: 'bold'}}>{convertPrice(priceMemo)}</span>
                 </div>
                 <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                  <span>Giảm giá</span>
+                  <span>Discount</span>
                   <span style={{color: '#000', fontSize: '14px', fontWeight: 'bold'}}>{convertPrice(priceDiscountMemo)}</span>
                 </div>
                 <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                  <span>Phí giao hàng</span>
+                  <span>Shipping fee</span>
                   <span style={{color: '#000', fontSize: '14px', fontWeight: 'bold'}}>{convertPrice(deliveryPriceMemo)}</span>
                 </div>
               </WrapperInfo>
               <WrapperTotal>
-                <span>Tổng tiền</span>
+                <span>Total amount</span>
                 <span style={{display:'flex', flexDirection: 'column'}}>
                   <span style={{color: 'rgb(254, 56, 52)', fontSize: '24px', fontWeight: 'bold'}}>{convertPrice(totalPriceMeno)}</span>
-                  <span style={{color: '#000', fontSize: '11px'}}>(Đã bao gồm VAT nếu có)</span>
+                  <span style={{color: '#000', fontSize: '11px'}}>(Including VAT if applicable)</span>
                 </span>
               </WrapperTotal>
             </div>
@@ -287,7 +301,7 @@ const itemsDelivery = [
                   border: 'none',
                   borderRadius: '4px'
               }}
-              textbutton={'Mua hàng'}
+              textbutton={'Order'}
               styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
           ></ButtonCom>
           </WrapperRight>

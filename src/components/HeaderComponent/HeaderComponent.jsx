@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as UserService from '../../services/UserService.js';
 import { resetUser } from '../../redux/slides/userSlice'
 import { searchProduct } from "../../redux/slides/productSlice";
+import { removeAllOrderProduct } from "../../redux/slides/orderSlice";
 
 
 

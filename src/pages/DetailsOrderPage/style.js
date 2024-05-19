@@ -4,23 +4,24 @@ export const WrapperHeaderUser = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 10px;
 `
 
 export const WrapperInfoUser = styled.div`
   .name-info {
     font-size: 13px;
     color: rgb(36, 36, 36);
-    font-weight: bold;
+    // font-weight: bold;
     text-transform: uppercase;
   }
   .address,.phone-info,.delivery-info,.delivery-fee,.payment-info {
-    color: rgba(0, 0, 0, 0.65);
+    color: rgb(36, 36, 36);
     font-size: 13px;
     margin-top: 8px;
   }
   .name-delivery {
     color: rgb(234, 133, 0); 
-    font-weight: bold;
+    // font-weight: bold;
     text-transform: uppercase;
   }
   .status-payment {
@@ -47,8 +48,11 @@ export const WrapperStyleContent = styled.div`
   display:flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 20px;
-  background: #ccc;
+  margin-top: 10px;
+  margin-left: 10px;
+`
+export const Spacer = styled.div`
+  height: 10px; /* Chiều cao của khoảng cách */
 `
 
 export const WrapperProduct = styled.div`

@@ -118,7 +118,7 @@ useEffect(() => {
         <Row style={{ padding: '16px', background: '#fff', borderRadius: '4px' }}>
             <Col span={10} style={{ borderRight: '1px solid #ccc', paddingRight: '8px' }}>
                 <Image src={productDetails?.image} alt="image product" preview={false} />
-                <Row style={{ paddingTop: '10px', justifyContent: 'space-between' }}>
+                {/* <Row style={{ paddingTop: '10px', justifyContent: 'space-between' }}>
                     <ColImageStyle span={4}>
                         <ImageSmallStyle src={imageProductSmall} alt="image small" preview={false} />
                     </ColImageStyle>
@@ -137,7 +137,7 @@ useEffect(() => {
                     <ColImageStyle span={4}>
                         <ImageSmallStyle src={imageProductSmall} alt="image small" preview={false} />
                     </ColImageStyle>
-                </Row>
+                </Row> */}
             </Col>
             <Col span={14} style={{ paddingLeft: '10px' }}>
                 <NameProductStyle style={{ marginBottom: '10px' }}>{productDetails?.name}</NameProductStyle>

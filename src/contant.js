@@ -4,7 +4,7 @@ export const orderContant = {
         gojek: 'GO_JEK'
     },
     payment: {
-        later_money: 'Thanh toán tiền mặt',
+        later_money: 'Cash on Delivery',
         paypal: 'Paypal'
     }
 }

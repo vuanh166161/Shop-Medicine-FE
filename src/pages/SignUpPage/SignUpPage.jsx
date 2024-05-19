@@ -7,11 +7,13 @@ import ButtonCom from "../../components/Button/ButtonCom.jsx";
 import * as UserService from "../../services/UserService.js"
 import { useMutationHooks } from "../../hooks/useMutationHook.js";
 import * as message from "../../components/MessageComponent/MessageComponent.jsx"
+import LoadingComponent from "../../components/LoadingComponent/LoadingComponent.jsx";
 
 
 const SignUpPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [loading, setLoading] = useState(false); // Thêm state để theo dõi trạng thái loading
     const togglePasswordVisibility = (setState) => {
         setState((prevState) => !prevState);
     };
@@ -45,11 +47,12 @@ const SignUpPage = () => {
         data => UserService.signupUser(data)
     )
 
-    const { data, isLoading, isSuccess, isError } = mutation
+    const { data, isSuccess, isError } = mutation
 
 
 
     const handleSignUp = () => {
+        setLoading(true);
         mutation.mutate({
             name,
             email,
@@ -59,12 +62,13 @@ const SignUpPage = () => {
     }
 
     useEffect(() => {
-        if (isSuccess) {
-            message.success()
+        if (!isSuccess || data?.status === 'ERR') {
+            return navigate('/sign-up')
+        } else {
             handleNavigateSignIn()
-        } else if (isError) {
-            message.error()
+            message.success()
         }
+        setLoading(false);
     }, [isSuccess, isError])
 
     return (
@@ -100,7 +104,8 @@ const SignUpPage = () => {
                             </label>
                             <div className="clear"></div>
                         </div> */}
-                        <>
+                        <div>
+                        {loading && <LoadingComponent />}
                             {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
                             <ButtonCom
                                 disabled={!email.length || !password.length || !confirmPassword.length}
@@ -117,7 +122,7 @@ const SignUpPage = () => {
                                 textbutton={'Sign Up'}
                                 styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
                             ></ButtonCom>
-                        </>
+                        </div>
                     </form>
                     <p>Do you have an Account? <span onClick={handleNavigateSignIn} style={{ color: "white", cursor: "pointer" }}>Sign in!</span></p>
                     <p>Forgot password?</p>

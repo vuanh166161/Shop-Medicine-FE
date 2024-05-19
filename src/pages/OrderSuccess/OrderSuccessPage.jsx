@@ -16,20 +16,20 @@ const OrderSuccessPage = () => {
     <div style={{ width: 'auto', marginTop: '10px' }}>
       <div style={{ background: '#f5f5fa', with: '100%', height: '100vh' }}>
         <div style={{ height: '100%', width: 'auto', margin: '0 auto' }}>
-          <h3 style={{ fontWeight: 'bold', marginLeft: '120px' }}>Order placed successfully</h3>
+        <h3 style={{fontWeight: 'bold', marginLeft:'120px', marginTop:'10px', color: '#76b852', fontSize: '24px'}}>Order placed successfully</h3>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <WrapperContainer>
               <WrapperInfo>
                 <div>
-                  <Lable>Phương thức giao hàng</Lable>
+                  <Lable>Delivery method</Lable>
                   <WrapperValue>
-                    <span style={{ color: '#ea8500', fontWeight: 'bold' }}>{orderContant.delivery[state?.delivery]}</span>Giao hang tiet kiem
+                    <span style={{ color: '#ea8500', fontWeight: 'bold' }}>{orderContant.delivery[state?.delivery]}</span>
                   </WrapperValue>
                 </div>
               </WrapperInfo>
               <WrapperInfo>
                 <div>
-                  <Lable>Phương thức thanh toán</Lable>
+                  <Lable>Delivery method</Lable>
                   <WrapperValue>
                     {orderContant.payment[state?.payment]}
                   </WrapperValue>

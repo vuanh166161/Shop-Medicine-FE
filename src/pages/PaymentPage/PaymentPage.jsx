@@ -230,8 +230,6 @@ const PaymentPage = () => {
       }
     )
   }
-  const exchangeRate = 0.00004;
-  const totalPriceMenoUSD = totalPriceMeno * exchangeRate;
   return (
     <div style={{ width: 'auto', marginTop: '10px' }}>
       <div style={{ background: '#f5f5fa', with: '100%', height: '100vh' }}>
@@ -241,18 +239,18 @@ const PaymentPage = () => {
             <WrapperLeft>
               <WrapperInfo>
                 <div>
-                  <Lable>Chọn phương thức giao hàng</Lable>
+                  <Lable>Select delivery method</Lable>
                   <WrapperRadio onChange={handleDelivery} value={delivery}>
-                    <Radio value="fast"><span style={{ color: '#ea8500', fontWeight: 'bold' }}>FAST</span>Giao hàng tiết kiệm</Radio>
-                    <Radio value="gojek"><span style={{ color: '#ea8500', fontWeight: 'bold' }}>GO_JEK</span>Giao hàng tiết kiệm</Radio>
+                    <Radio value="fast"><span style={{ color: '#ea8500', fontWeight: 'bold' }}>FAST</span> Fast delivery</Radio>
+                    <Radio value="gojek"><span style={{ color: '#ea8500', fontWeight: 'bold' }}>GO_JEK</span> Economical delivery</Radio>
                   </WrapperRadio>
                 </div>
               </WrapperInfo>
               <WrapperInfo>
                 <div>
-                  <Lable>Chọn phương thức thanh toán</Lable>
+                  <Lable>Select a payment method</Lable>
                   <WrapperRadio onChange={handlePayment} value={payment}>
-                    <Radio value="later_money">Thanh toán tiền mặt</Radio>
+                    <Radio value="later_money">Cash payment</Radio>
                     <Radio value="paypal">Paypal</Radio>
                   </WrapperRadio>
                 </div>
@@ -269,30 +267,30 @@ const PaymentPage = () => {
                 </WrapperInfo>
                 <WrapperInfo style={{ width: 'auto' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>Tạm tính</span>
+                    <span>Provisional</span>
                     <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{convertPrice(priceMemo)}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>Giảm giá</span>
+                    <span>Discount</span>
                     <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{convertPrice(priceDiscountMemo)}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>Phí giao hàng</span>
+                    <span>Delivery charges</span>
                     <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{convertPrice(deliveryPriceMemo)}</span>
                   </div>
                 </WrapperInfo>
                 <WrapperTotal>
-                  <span>Tổng tiền</span>
+                  <span>Total amount</span>
                   <span style={{ display: 'flex', flexDirection: 'column' }}>
                     <span style={{ color: 'rgb(254, 56, 52)', fontSize: '24px', fontWeight: 'bold' }}>{convertPrice(totalPriceMeno)}</span>
-                    <span style={{ color: '#000', fontSize: '11px' }}>(Đã bao gồm VAT nếu có)</span>
+                    <span style={{ color: '#000', fontSize: '11px' }}>(VAT included if any)</span>
                   </span>
                 </WrapperTotal>
               </div>
               {payment === 'paypal' && sdkReady ? (
                 <div style={{ width: '320px' }}>
                   <PayPalButton
-                    amount={totalPriceMenoUSD}
+                    amount={totalPriceMeno}
                     onSuccess={onSuccessPaypal}
                     onError={() => {
                       alert('Payment Error')
