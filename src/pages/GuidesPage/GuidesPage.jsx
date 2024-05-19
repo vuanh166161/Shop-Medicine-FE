@@ -39,9 +39,9 @@ const GuidesPage = () => {
                         <ListItem>2. Manage Personal Information</ListItem>
                         <ListItem>🔵 Once logged in, you can manage your personal information such as shipping address, payment information, and order history.</ListItem>
                     </List>
-                    <Paragraph style={{ fontWeight: 'bold'}}>For New Users</Paragraph>
+                    <Paragraph style={{ fontWeight: 'bold' }}>For New Users</Paragraph>
                     <List>
-                        <ListItem>1. Register for a New Account</ListItem>
+                        <ListItem>Register for a New Account</ListItem>
                         <ListItem>🔵 If you don't have an account yet, you can register for a new account by clicking on the "Register" button at the top right of the website.</ListItem>
                         <ListItem>🔵 Fill in your personal information in the registration form and click on the "Register" button.</ListItem>
                     </List>
