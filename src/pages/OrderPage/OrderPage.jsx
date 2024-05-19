@@ -25,6 +25,7 @@ const user = useSelector((state) => state.user)
 const [isOpenModalUpdateInfor, setIsOpenModalUpdateInfor] = useState(false)
 const [listChecked, setListChecked] = useState([])
 const dispatch = useDispatch()
+const [currentStep, setCurrentStep] = useState(0);
 const navigate = useNavigate()
 const [form] = Form.useForm()
 const [valueUserDetails, setValueUserDetails] = useState({
@@ -141,37 +142,69 @@ const handleChangeAddress = () => {
 }
 
 
- const priceMemo = useMemo(() => {
-  const result = order?.orderItemSelected?.reduce((total, cur) => {
-    return total + ((cur.price * cur.amount))
-  },0)
-  return result
- }, [order])
+//  const priceMemo = useMemo(() => {
+//   const result = order?.orderItemSelected?.reduce((total, cur) => {
+//     return total + ((cur.price * cur.amount))
+//   },0)
+//   return result
+//  }, [order])
 
- const priceDiscountMemo = useMemo(() => {
-  const result = order?.orderItemSelected?.reduce((total, cur) => {
-    const totalDiscount = cur.discount ? cur.discount : 0
-    return total + (priceMemo * (totalDiscount * cur.amount) / 100)
-  },0)
-  if(Number(result)){
-    return result
-  }
-  return 0
- }, [order])
+const priceMemo = useMemo(() => {
+  return order?.orderItemSelected?.reduce((total, cur) => {
+    if (listChecked.includes(cur.product)) {
+      return total + cur.price * cur.amount; // Chỉ tính tổng tiền của sản phẩm đã chọn
+    }
+    return total; // Không cộng thêm nếu sản phẩm chưa được chọn
+  }, 0);
+}, [order, listChecked]);
 
- const deliveryPriceMemo = useMemo(() => {
-  if(priceMemo >= 200000 && priceMemo < 500000){
-    return 10000
-  }else if(priceMemo >= 500000 || order?.orderItemSelected?.length === 0) {
-    return 0
+//  const priceDiscountMemo = useMemo(() => {
+//   const result = order?.orderItemSelected?.reduce((total, cur) => {
+//     const totalDiscount = cur.discount ? cur.discount : 0
+//     return total + (priceMemo * (totalDiscount * cur.amount) / 100)
+//   },0)
+//   if(Number(result)){
+//     return result
+//   }
+//   return 0
+//  }, [order])
+const priceDiscountMemo = useMemo(() => {
+  return order?.orderItemSelected?.reduce((total, cur) => {
+    if (listChecked.includes(cur.product)) {
+      const totalDiscount = cur.discount ? cur.discount : 0;
+      return total + (cur.price * (totalDiscount * cur.amount) / 100); // Tính giảm giá của sản phẩm đã chọn
+    }
+    return total; // Không cộng thêm nếu sản phẩm chưa được chọn
+  }, 0);
+}, [order, listChecked]);
+
+//  const deliveryPriceMemo = useMemo(() => {
+//   if(priceMemo >= 200000 && priceMemo < 500000){
+//     return 10000
+//   }else if(priceMemo >= 500000 || order?.orderItemSelected?.length === 0) {
+//     return 0
+//   } else {
+//     return 20000
+//   }
+//  }, [priceMemo])
+const deliveryPriceMemo = useMemo(() => {
+  if (priceMemo > 500000 || order?.orderItemSelected?.length === 0) {
+    return 0; // Miễn phí vận chuyển khi đơn hàng trên 500.000 VND hoặc không có sản phẩm nào
+  } else if (priceMemo >= 200000) {
+    return 10000; // Phí vận chuyển 10.000 VND cho đơn từ 200.000 VND đến 499.999 VND
   } else {
-    return 20000
+    return 20000; // Phí vận chuyển 20.000 VND cho đơn dưới 200.000 VND
   }
- }, [priceMemo])
+}, [priceMemo, order?.orderItemSelected?.length]);
 
- const totalPriceMeno = useMemo(() => {
-  return Number(priceMemo) - Number(priceDiscountMemo) + Number(deliveryPriceMemo)
- },[priceMemo,priceDiscountMemo, deliveryPriceMemo])
+
+//  const totalPriceMeno = useMemo(() => {
+//   return Number(priceMemo) - Number(priceDiscountMemo) + Number(deliveryPriceMemo)
+//  },[priceMemo,priceDiscountMemo, deliveryPriceMemo])
+
+const totalPriceMeno = useMemo(() => {
+  return priceMemo - priceDiscountMemo + deliveryPriceMemo; 
+}, [priceMemo, priceDiscountMemo, deliveryPriceMemo]);
 
  useEffect(() => {
   dispatch(selectedOrder({listChecked}))
@@ -192,6 +225,19 @@ const handleChangeAddress = () => {
   form.setFieldsValue(valueUserDetails)
 }, [form, valueUserDetails])
 
+
+useEffect(() => {
+  let newCurrentStep;
+  if (priceMemo > 500000) {
+    newCurrentStep = 2; // Free
+  } else if (priceMemo >= 200000) {
+    newCurrentStep = 1; // 10.000 VND
+  } else {
+    newCurrentStep = 0; // 20.000 VND
+  }
+  setCurrentStep(newCurrentStep);
+}, [priceMemo]);
+
 const itemsDelivery = [
   {
     title: '20.000 VND',
@@ -199,14 +245,13 @@ const itemsDelivery = [
   },
   {
     title: '10.000 VND',
-    description: 'Over 200.000 VND',
-    subTitle: 'Left 00:00:08'
+    description: 'From 200.000 VND to 499.999 VND', // Thay đổi mô tả cho phù hợp
   },
   {
-    title: '0 VND',
-    description:'From 500.000 VND'
+    title: 'Free', // Thay đổi title thành "Free" để rõ ràng hơn
+    description: 'Over 500.000 VND', // Thay đổi mô tả cho phù hợp
   }
-]
+];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh"}}>
@@ -216,7 +261,20 @@ const itemsDelivery = [
         <div style={{ display: 'flex', justifyContent: 'center'}}>
           <WrapperLeft>
             <WrapperStyleHeaderStatus>
-              <StepComponent items={itemsDelivery} current={deliveryPriceMemo === 10000 ? 2 : deliveryPriceMemo === 20000 ? 1 : order?.orderItemSelected?.length === 0 ? 0: 3}/>
+              {/* <StepComponent items={itemsDelivery} current={deliveryPriceMemo === 10000 ? 2 : deliveryPriceMemo === 20000 ? 1 : order?.orderItemSelected?.length === 0 ? 0: 3}/> */}
+              {/* <StepComponent
+  items={itemsDelivery}
+  current={
+    deliveryPriceMemo === 0
+      ? 3 
+      : deliveryPriceMemo === 10000
+      ? 2
+      : order?.orderItemSelected?.length === 0 // không có sản phẩm nào được chọn
+      ? 0
+      : 1 // Trường hợp phí vận chuyển là 20000 VND
+  }
+/> */}
+<StepComponent items={itemsDelivery} current={currentStep} key={currentStep} />
             </WrapperStyleHeaderStatus>
             <WrapperStyleHeader>
                 <span style={{display: 'inline-block', width: '390px'}}>

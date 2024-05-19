@@ -16,12 +16,15 @@ import * as OrderService from "../../services/OrderService"
 import * as PaymentService from "../../services/PaymentService"
 import * as message from "../../components/MessageComponent/MessageComponent.jsx"
 import { updateUser } from '../../redux/slides/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PayPalButton } from "react-paypal-button-v2";
 
 
 
 const PaymentPage = () => {
+  const location = useLocation();
+  const [currentStep, setCurrentStep] = useState(0);
+  const exchangeRate = 24000;
   const order = useSelector((state) => state.order)
   const user = useSelector((state) => state.user)
   const [isOpenModalUpdateInfor, setIsOpenModalUpdateInfor] = useState(false)
@@ -135,10 +138,11 @@ const PaymentPage = () => {
     return result
   }, [order])
 
+
   const priceDiscountMemo = useMemo(() => {
     const result = order?.orderItemSelected?.reduce((total, cur) => {
       const totalDiscount = cur.discount ? cur.discount : 0
-      return total + (priceMemo * (totalDiscount * cur.amount) / 100)
+      return total + (cur.price * (totalDiscount * cur.amount) / 100)
     }, 0)
     if (Number(result)) {
       return result
@@ -146,20 +150,24 @@ const PaymentPage = () => {
     return 0
   }, [order])
 
+
   const deliveryPriceMemo = useMemo(() => {
-    if (priceMemo > 100000) {
-      return 15000
-    } else if (priceMemo === 0) {
-      return 0
+    if (priceMemo > 500000 || order?.orderItemSelected?.length === 0) {
+      return 0; // Miễn phí vận chuyển khi đơn hàng trên 500.000 VND hoặc không có sản phẩm nào
+    } else if (priceMemo >= 200000) {
+      return 10000; // Phí vận chuyển 10.000 VND cho đơn từ 200.000 VND đến 499.999 VND
     } else {
-      return 10000
+      return 20000; // Phí vận chuyển 20.000 VND cho đơn dưới 200.000 VND
     }
-  }, [priceMemo])
+  }, [priceMemo, order?.orderItemSelected?.length]);
 
   const totalPriceMeno = useMemo(() => {
     return Number(priceMemo) - Number(priceDiscountMemo) + Number(deliveryPriceMemo)
   }, [priceMemo, priceDiscountMemo, deliveryPriceMemo])
 
+  const totalPriceUSD = useMemo(() => {
+    return (totalPriceMeno / exchangeRate).toFixed(2); // Làm tròn đến 2 chữ số thập phân
+  }, [totalPriceMeno]);
 
 
   useEffect(() => {
@@ -290,7 +298,7 @@ const PaymentPage = () => {
               {payment === 'paypal' && sdkReady ? (
                 <div style={{ width: '320px' }}>
                   <PayPalButton
-                    amount={totalPriceMeno}
+                    amount={totalPriceUSD}
                     onSuccess={onSuccessPaypal}
                     onError={() => {
                       alert('Payment Error')
