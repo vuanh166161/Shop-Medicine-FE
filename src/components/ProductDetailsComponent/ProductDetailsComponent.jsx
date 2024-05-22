@@ -155,14 +155,18 @@ useEffect(() => {
                 </AddressProduct>
                 <LikeButtonComponent dataHref= { process.env.REACT_APP_IS_LOCAL ? "https://developers.facebook.com/docs/plugins/" : window.location.href}/>
                 <div style={{ margin: '10px 0 20px', padding: '10px 0', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}>
+                    <div style={{ marginBottom: '7px' }}>Description:</div>
+                    <span>{productDetails?.description}</span>
+                </div>
+                <div style={{ margin: '10px 0 20px', padding: '10px 0', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}>
                     <div style={{ marginBottom: '7px' }}>Quantity</div>
                     <QuantityProductStyle style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handleChangeCount('increase', quantityProduct === productDetails?.countInStock)}>
-                            <PlusOutlined style={{ color: '#000', fontSize: '20px' }} />
-                        </button>
-                        <InputValueNumber size="small" defaultValue={1} onChange={onChange} value={quantityProduct} min={1} max={productDetails?.countInStock}/>
                         <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handleChangeCount('decrease', quantityProduct === 1)}>
                             <MinusOutlined style={{ color: '#000', fontSize: '20px' }} />
+                        </button>
+                        <InputValueNumber size="small" defaultValue={1} onChange={onChange} value={quantityProduct} min={1} max={productDetails?.countInStock}/>
+                        <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handleChangeCount('increase', quantityProduct === productDetails?.countInStock)}>
+                            <PlusOutlined style={{ color: '#000', fontSize: '20px' }} />
                         </button>
                     </QuantityProductStyle>
                 </div>

@@ -46,25 +46,40 @@ const SignInPage = () => {
     const { data, isSuccess, isError } = mutation
 
 
+    // useEffect(() => {
+    //     if (!isSuccess || data?.status === 'ERR') {
+    //         return navigate('/sign-in')
+    //     } else {
+    //         navigate('/')
+    //         Cookies.set('access_token', data?.access_token);
+    //         localStorage.setItem('access_token', JSON.stringify(data?.access_token))
+    //         Cookies.set('refresh_token', data?.refresh_token);
+    //         localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
+    //         if (data?.access_token) {
+    //             const decoded = jwtDecode(data?.access_token);
+    //             if (decoded?.id) {
+    //                 handleGetDetailsUser(decoded?.id, data?.access_token)
+    //             }
+    //         }
+    //     }
+    //     setLoading(false);
+    // }, [isSuccess, location, navigate, data])
     useEffect(() => {
-        if (!isSuccess || data?.status === 'ERR') {
-            return navigate('/sign-in')
-        } else {
-            navigate('/')
-            Cookies.set('access_token', data?.access_token);
-            localStorage.setItem('access_token', JSON.stringify(data?.access_token))
-            Cookies.set('refresh_token', data?.refresh_token);
-            localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
-            if (data?.access_token) {
-                const decoded = jwtDecode(data?.access_token);
-                if (decoded?.id) {
-                    handleGetDetailsUser(decoded?.id, data?.access_token)
-                }
+        if (isSuccess && data?.status !== "ERR" && location.pathname === "/sign-in") {
+          navigate("/");
+          Cookies.set("access_token", data?.access_token);
+          localStorage.setItem("access_token", JSON.stringify(data?.access_token));
+          Cookies.set("refresh_token", data?.refresh_token);
+          localStorage.setItem("refresh_token", JSON.stringify(data?.refresh_token));
+          if (data?.access_token) {
+            const decoded = jwtDecode(data?.access_token);
+            if (decoded?.id) {
+              handleGetDetailsUser(decoded?.id, data?.access_token);
             }
+          }
         }
         setLoading(false);
-    }, [isSuccess, location, navigate, data])
-
+      }, [isSuccess, location.pathname, data]);
 
 
     const handleGetDetailsUser = async (id, token) => {
