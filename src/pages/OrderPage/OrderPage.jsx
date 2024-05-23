@@ -149,11 +149,11 @@ const priceDiscountMemo = useMemo(() => {
 
 const deliveryPriceMemo = useMemo(() => {
   if (priceMemo > 500000 || order?.orderItemSelected?.length === 0) {
-    return 0; // Miễn phí vận chuyển khi đơn hàng trên 500.000 VND hoặc không có sản phẩm nào
+    return 0; // Free shipping for orders over 500,000 VND or if there are no items selected
   } else if (priceMemo >= 200000) {
-    return 10000; // Phí vận chuyển 10.000 VND cho đơn từ 200.000 VND đến 499.999 VND
+    return 10000; // Shipping fee is 10,000 VND for orders from 200,000 VND to 499,999 VND
   } else {
-    return 20000; // Phí vận chuyển 20.000 VND cho đơn dưới 200.000 VND
+    return 20000; // Shipping fee is 20,000 VND for orders below 200,000 VND
   }
 }, [priceMemo, order?.orderItemSelected?.length]);
 

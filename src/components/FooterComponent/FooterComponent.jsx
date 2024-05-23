@@ -1,7 +1,19 @@
 import React from "react";
 import { WrapperFooter, WrapperTextFooter } from "./style";
+import { useNavigate } from "react-router-dom";
 
 const FooterComponent = () => {
+    const navigate = useNavigate();
+    const handleNavigateHomePage = () => {
+        navigate('/')
+    }
+    const handleNavigateProductPage = () => {
+        navigate('/products')
+    }
+    const handleNavigateProfilePage = () => {
+        navigate('/profile-user')
+    }
+
     return (
         <div>
             {/* Add a placeholder to push content up */}
@@ -13,7 +25,7 @@ const FooterComponent = () => {
                     <WrapperTextFooter>
                         Our Company
                         <div style={{ display: 'flex', flexDirection: 'column', marginTop:'5px' }}>
-                            <span style={{ fontSize: '12px' }}>How It Works</span>
+                            <span style={{ fontSize: '12px' }} >How It Works</span>
                             <span style={{ fontSize: '12px'  }}>About Us</span>
                             <span style={{ fontSize: '12px' }}>Team</span>
                         </div>
@@ -21,9 +33,9 @@ const FooterComponent = () => {
                     <WrapperTextFooter>
                         Navigate
                         <div style={{ display: 'flex', flexDirection: 'column', marginTop:'5px' }}>
-                            <span style={{ fontSize: '12px' }}>Home</span>
-                            <span style={{ fontSize: '12px'  }}>Product</span>
-                            <span style={{ fontSize: '12px' }}>Profile</span>
+                            <span style={{ fontSize: '12px' }} onClick={handleNavigateHomePage}>Home</span>
+                            <span style={{ fontSize: '12px'  }} onClick={handleNavigateProductPage}>Product</span>
+                            <span style={{ fontSize: '12px' }} onClick={handleNavigateProfilePage}>Profile</span>
                         </div>
                     </WrapperTextFooter>
                     <WrapperTextFooter>
