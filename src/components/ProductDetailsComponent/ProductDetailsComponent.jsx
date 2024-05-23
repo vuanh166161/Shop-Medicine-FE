@@ -22,7 +22,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
     const navigate = useNavigate()
     const location = useLocation()
     const dispatch = useDispatch()
-    const [ errorLimit,setErrorLimit] = useState(false)
+    const [errorLimit, setErrorLimit] = useState(false)
     const order = useSelector((state) => state.order)
     const user = useSelector((state) => state.user)
     const [quantityProduct, setQuantityProduct] = useState(1)
@@ -41,11 +41,11 @@ const ProductDetailsComponent = ({ idProduct }) => {
 
     const handleChangeCount = (type, limit) => {
         if (type === 'increase') {
-            if(!limit) {
+            if (!limit) {
                 setQuantityProduct(quantityProduct + 1)
             }
         } else {
-            if(!limit){
+            if (!limit) {
                 setQuantityProduct(quantityProduct - 1)
             }
         }
@@ -56,7 +56,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
             navigate('/sign-in', { state: location?.pathname })
         } else {
             const orderRedux = order?.orderItems?.find((item) => item.product === productDetails?._id)
-            if((orderRedux?.amount + quantityProduct) <= orderRedux?.countInStock || (!orderRedux && productDetails?.countInStock > 0)){
+            if ((orderRedux?.amount + quantityProduct) <= orderRedux?.countInStock || (!orderRedux && productDetails?.countInStock > 0)) {
                 dispatch(addOrderProduct({
                     orderItem: {
                         name: productDetails?.name,
@@ -68,7 +68,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
                         countInStock: productDetails?.countInStock
                     }
                 }))
-            }else{
+            } else {
                 setErrorLimit(true)
             }
         }
@@ -95,7 +95,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
     useEffect(() => {
         if (order.isSucessOrder) {
             message.success('Added to cart successfully')
-        } 
+        }
         return () => {
             dispatch(resetOrder())
         }
@@ -103,41 +103,21 @@ const ProductDetailsComponent = ({ idProduct }) => {
 
     useEffect(() => {
         const orderRedux = order?.orderItems?.find((item) => item.product === productDetails?._id)
-        if((orderRedux?.amount + quantityProduct) <= orderRedux?.countInStock || (!orderRedux && productDetails?.countInStock > 0)){
+        if ((orderRedux?.amount + quantityProduct) <= orderRedux?.countInStock || (!orderRedux && productDetails?.countInStock > 0)) {
             setErrorLimit(false)
-        }else if(productDetails?.countInStock === 0){
+        } else if (productDetails?.countInStock === 0) {
             setErrorLimit(true)
         }
-    },[quantityProduct])
+    }, [quantityProduct])
 
-useEffect(() => {
-    initFacebookSDK()
-},[])
+    useEffect(() => {
+        initFacebookSDK()
+    }, [])
 
     return (
         <Row style={{ padding: '16px', background: '#fff', borderRadius: '4px' }}>
             <Col span={10} style={{ borderRight: '1px solid #ccc', paddingRight: '8px' }}>
                 <Image src={productDetails?.image} alt="image product" preview={false} />
-                {/* <Row style={{ paddingTop: '10px', justifyContent: 'space-between' }}>
-                    <ColImageStyle span={4}>
-                        <ImageSmallStyle src={imageProductSmall} alt="image small" preview={false} />
-                    </ColImageStyle>
-                    <ColImageStyle span={4}>
-                        <ImageSmallStyle src={imageProductSmall} alt="image small" preview={false} />
-                    </ColImageStyle>
-                    <ColImageStyle span={4}>
-                        <ImageSmallStyle src={imageProductSmall} alt="image small" preview={false} />
-                    </ColImageStyle>
-                    <ColImageStyle span={4}>
-                        <ImageSmallStyle src={imageProductSmall} alt="image small" preview={false} />
-                    </ColImageStyle>
-                    <ColImageStyle span={4}>
-                        <ImageSmallStyle src={imageProductSmall} alt="image small" preview={false} />
-                    </ColImageStyle>
-                    <ColImageStyle span={4}>
-                        <ImageSmallStyle src={imageProductSmall} alt="image small" preview={false} />
-                    </ColImageStyle>
-                </Row> */}
             </Col>
             <Col span={14} style={{ paddingLeft: '10px' }}>
                 <NameProductStyle style={{ marginBottom: '10px' }}>{productDetails?.name}</NameProductStyle>
@@ -150,10 +130,9 @@ useEffect(() => {
                 </PriceProductStyle>
                 <AddressProduct>
                     <span>Deliver to </span>
-                    <span className="address">{user?.address}</span> -
-                    <span className="change-address">Change address</span>
+                    <span className="address">{user?.address}</span>
                 </AddressProduct>
-                <LikeButtonComponent dataHref= { process.env.REACT_APP_IS_LOCAL ? "https://developers.facebook.com/docs/plugins/" : window.location.href}/>
+                <LikeButtonComponent dataHref={process.env.REACT_APP_IS_LOCAL ? "https://developers.facebook.com/docs/plugins/" : window.location.href} />
                 <div style={{ margin: '10px 0 20px', padding: '10px 0', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}>
                     <div style={{ marginBottom: '7px' }}>Description:</div>
                     <span>{productDetails?.description}</span>
@@ -164,7 +143,7 @@ useEffect(() => {
                         <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handleChangeCount('decrease', quantityProduct === 1)}>
                             <MinusOutlined style={{ color: '#000', fontSize: '20px' }} />
                         </button>
-                        <InputValueNumber size="small" defaultValue={1} onChange={onChange} value={quantityProduct} min={1} max={productDetails?.countInStock}/>
+                        <InputValueNumber size="small" defaultValue={1} onChange={onChange} value={quantityProduct} min={1} max={productDetails?.countInStock} />
                         <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handleChangeCount('increase', quantityProduct === productDetails?.countInStock)}>
                             <PlusOutlined style={{ color: '#000', fontSize: '20px' }} />
                         </button>
@@ -172,21 +151,21 @@ useEffect(() => {
                 </div>
                 <div style={{ display: 'flex', gap: '12px', marginTop: '10px' }}>
                     <div>
-                    <ButtonCom
-                        size={40}
-                        styleButton={{
-                            background: '#76b852',
-                            height: '48px',
-                            width: '220px',
-                            border: 'none',
-                            borderRadius: '4px'
-                        }}
-                        onClick={handleAdd}
-                        textbutton={'Add'}
-                        styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}>
+                        <ButtonCom
+                            size={40}
+                            styleButton={{
+                                background: '#76b852',
+                                height: '48px',
+                                width: '220px',
+                                border: 'none',
+                                borderRadius: '4px'
+                            }}
+                            onClick={handleAdd}
+                            textbutton={'Add'}
+                            styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}>
                         </ButtonCom>
-                        {errorLimit && <div style={{color: 'red'}}>Sold out</div>}
-                        </div>
+                        {errorLimit && <div style={{ color: 'red' }}>Sold out</div>}
+                    </div>
                     <ButtonCom
                         size={40}
                         styleButton={{
@@ -199,10 +178,10 @@ useEffect(() => {
                         onClick={handleAddOrderProduct}
                         textbutton={'Buy'}
                         styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}>
-                        </ButtonCom>
+                    </ButtonCom>
                 </div>
             </Col>
-            <CommentComponent dataHref={ process.env.REACT_APP_IS_LOCAL ? "https://developers.facebook.com/docs/plugins/comments#configurator" : window.location.href} width='1270'/>
+            <CommentComponent dataHref={process.env.REACT_APP_IS_LOCAL ? "https://developers.facebook.com/docs/plugins/comments#configurator" : window.location.href} width='1270' />
         </Row>
     );
 };
