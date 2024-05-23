@@ -86,24 +86,18 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
         <div>
             <WrapperHeader style={{ alignItems: 'center' }}>
                 <Col span={2} onClick={handleNavigateHome} style={{ cursor: 'pointer' }}><WrapperTextHeader>Home</WrapperTextHeader></Col>
-                {/* {!isHiddenCart && ( */}
+         
                 <Col span={2} onClick={handleNavigateProduct} style={{ cursor: 'pointer' }}><WrapperTextHeader>Product</WrapperTextHeader></Col>
-                {/* )} */}
-                {/* {!isHiddenCart && ( */}
-                {/* <Col span={2}><WrapperTextHeader onClick={() => navigate('/product/type')} style={{cursor: 'pointer'}}>Types</WrapperTextHeader></Col> */}
-                {/* )} */}
-                {/* {!isHiddenCart && ( */}
+            
                 <Col span={2}><WrapperTextHeader onClick={() => navigate('/about')} style={{cursor: 'pointer'}}>About Us</WrapperTextHeader></Col>
-                {/* )} */}
-                {/* {!isHiddenCart && ( */}
+
                 <Col span={2}><WrapperTextHeader onClick={() => navigate('/guides')} style={{cursor: 'pointer'}}>Guides</WrapperTextHeader></Col>
-                {/* )} */}
+    
 
                 {!isHiddenSearch && (
                     <Col span={12}> <SearchButton
                         bordered={false}
                         size="large"
-                        // large
                         placeholder="Search..."
                         textButton=""
                         onChange={onSearch}

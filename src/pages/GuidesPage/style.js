@@ -1,25 +1,24 @@
 import styled from "styled-components";
 
 export const SliderContainer = styled.div`
-  padding: 0 120px; /* Khoảng cách 2 bên */
+  padding: 0 120px;
 `;
 
 export const ImageWrapper = styled.div`
   width: 100%;
-  height: 600px; /* Chiều cao cố định */
-//   margin: 0 10px; /* Khoảng cách giữa các hình ảnh */
+  height: 600px;
 `;
 export const ContentWrapper = styled.div`
-  padding: 20px 120px; /* Khoảng cách 2 bên và khoảng cách từ trên xuống */
-  color: #333; /* Màu chữ */
+  padding: 20px 120px;
+  color: #333;
   background-color: #ccc;
 `;
 
 export const Title = styled.h1`
 color: black;
-  font-size: 24px; /* Kích thước chữ */
-  font-weight: bold; /* Độ đậm của chữ */
-  margin-bottom: 10px; /* Khoảng cách từ tiêu đề xuống đoạn văn */
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
 `;
 
 export const Paragraph = styled.p`

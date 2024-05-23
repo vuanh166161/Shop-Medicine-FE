@@ -5,7 +5,7 @@ export const WrapperHeader = styled(Row)`
     padding: 10px 120px;
     background-color: rgba(118, 184, 82, 1);
     flex-wrap: nowrap;
-    width: 100%; /* Đảm bảo chiều dài của header bằng với màn hình */
+    width: 100%;
 `
 
 export const WrapperTextHeader = styled.span`

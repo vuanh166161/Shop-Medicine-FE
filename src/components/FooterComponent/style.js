@@ -2,12 +2,12 @@ import { Row } from "antd";
 import styled from "styled-components";
 
 export const WrapperFooter = styled(Row)`
-    padding: 20px 0; /* Loại bỏ padding 120px ở cả hai phía */
+    padding: 20px 0;
     background-color: rgba(118, 184, 82, 1);
     flex-wrap: nowrap;
     width: 100%;
-    justify-content: center; /* Canh giữa các phần tử */
-    gap: 20px; /* Khoảng cách giữa các phần tử */
+    justify-content: center;
+    gap: 20px;
 `;
 
 export const WrapperTextFooter = styled.span`
@@ -15,6 +15,6 @@ export const WrapperTextFooter = styled.span`
     color: #fff;
     font-weight: bold;
     text-align: center;
-    flex-grow: 1; /* Đặt các phần tử có cùng độ rộng */
+    flex-grow: 1;
 `;
 

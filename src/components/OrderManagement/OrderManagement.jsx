@@ -83,10 +83,10 @@ const OrderManagement = () => {
         ),
         onFilter: (value, record) => {
             if (dataIndex === 'orderItems.name') {
-                // Kiểm tra xem record[dataIndex] và item.name có tồn tại không trước khi thực hiện thao tác
+                // Check if record[dataIndex] and item.name exist before performing the operation
                 return record.orderItems && record.orderItems.some(item => item.name && item.name.toString().toLowerCase().includes(value.toLowerCase()));
             } else {
-                // Kiểm tra xem record[dataIndex] có tồn tại không trước khi thực hiện thao tác
+                // Check if record[dataIndex] exists before performing the operation
                 return record[dataIndex] && record[dataIndex].toString().toLowerCase().includes(value.toLowerCase());
             }
         },

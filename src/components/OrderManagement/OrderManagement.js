@@ -30,10 +30,10 @@ export const ListItem = styled.li`
 `;
 
 export const colorIconCash = styled.span`
-  color: rgb(0, 136, 254); /* Màu của biểu tượng */
+  color: rgb(0, 136, 254);
   stroke: rgb(255, 255, 255);
 `;
 export const colorIconPaypal = styled.span`
-  color: rgb(0, 169, 159); /* Màu của biểu tượng */
+  color: rgb(0, 169, 159);
   stroke: rgb(255, 255, 255);
 `;

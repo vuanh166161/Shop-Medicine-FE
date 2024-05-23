@@ -42,19 +42,6 @@ const mutationUpdate = useMutationHooks(
   }
 )  
 
-// useEffect(() => {
-//   const userCart = localStorage.getItem(user.id); // Lấy thông tin giỏ hàng từ local storage
-//   if (userCart) {
-//     dispatch(updateUser({ cart: JSON.parse(userCart) }));
-//   }
-// }, [user.id, dispatch]);
-
-// useEffect(() => {
-//   return () => {
-//     localStorage.setItem(user.id, JSON.stringify(order.orderItems)); // Lưu thông tin giỏ hàng vào local storage
-//   };
-// }, [order.orderItems, user.id]);
-
  const onChange = (e) => {
     if(listChecked.includes(e.target.value)){
       const newListChecked = listChecked.filter((item) => item !== e.target.value)
@@ -141,14 +128,6 @@ const handleChangeAddress = () => {
   setIsOpenModalUpdateInfor(true)
 }
 
-
-//  const priceMemo = useMemo(() => {
-//   const result = order?.orderItemSelected?.reduce((total, cur) => {
-//     return total + ((cur.price * cur.amount))
-//   },0)
-//   return result
-//  }, [order])
-
 const priceMemo = useMemo(() => {
   return order?.orderItemSelected?.reduce((total, cur) => {
     if (listChecked.includes(cur.product)) {
@@ -158,16 +137,6 @@ const priceMemo = useMemo(() => {
   }, 0);
 }, [order, listChecked]);
 
-//  const priceDiscountMemo = useMemo(() => {
-//   const result = order?.orderItemSelected?.reduce((total, cur) => {
-//     const totalDiscount = cur.discount ? cur.discount : 0
-//     return total + (priceMemo * (totalDiscount * cur.amount) / 100)
-//   },0)
-//   if(Number(result)){
-//     return result
-//   }
-//   return 0
-//  }, [order])
 const priceDiscountMemo = useMemo(() => {
   return order?.orderItemSelected?.reduce((total, cur) => {
     if (listChecked.includes(cur.product)) {
@@ -178,15 +147,6 @@ const priceDiscountMemo = useMemo(() => {
   }, 0);
 }, [order, listChecked]);
 
-//  const deliveryPriceMemo = useMemo(() => {
-//   if(priceMemo >= 200000 && priceMemo < 500000){
-//     return 10000
-//   }else if(priceMemo >= 500000 || order?.orderItemSelected?.length === 0) {
-//     return 0
-//   } else {
-//     return 20000
-//   }
-//  }, [priceMemo])
 const deliveryPriceMemo = useMemo(() => {
   if (priceMemo > 500000 || order?.orderItemSelected?.length === 0) {
     return 0; // Miễn phí vận chuyển khi đơn hàng trên 500.000 VND hoặc không có sản phẩm nào
@@ -196,11 +156,6 @@ const deliveryPriceMemo = useMemo(() => {
     return 20000; // Phí vận chuyển 20.000 VND cho đơn dưới 200.000 VND
   }
 }, [priceMemo, order?.orderItemSelected?.length]);
-
-
-//  const totalPriceMeno = useMemo(() => {
-//   return Number(priceMemo) - Number(priceDiscountMemo) + Number(deliveryPriceMemo)
-//  },[priceMemo,priceDiscountMemo, deliveryPriceMemo])
 
 const totalPriceMeno = useMemo(() => {
   return priceMemo - priceDiscountMemo + deliveryPriceMemo; 
@@ -261,19 +216,6 @@ const itemsDelivery = [
         <div style={{ display: 'flex', justifyContent: 'center'}}>
           <WrapperLeft>
             <WrapperStyleHeaderStatus>
-              {/* <StepComponent items={itemsDelivery} current={deliveryPriceMemo === 10000 ? 2 : deliveryPriceMemo === 20000 ? 1 : order?.orderItemSelected?.length === 0 ? 0: 3}/> */}
-              {/* <StepComponent
-  items={itemsDelivery}
-  current={
-    deliveryPriceMemo === 0
-      ? 3 
-      : deliveryPriceMemo === 10000
-      ? 2
-      : order?.orderItemSelected?.length === 0 // không có sản phẩm nào được chọn
-      ? 0
-      : 1 // Trường hợp phí vận chuyển là 20000 VND
-  }
-/> */}
 <StepComponent items={itemsDelivery} current={currentStep} key={currentStep} />
             </WrapperStyleHeaderStatus>
             <WrapperStyleHeader>

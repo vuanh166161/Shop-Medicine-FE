@@ -8,8 +8,8 @@ export const WrapperInputStyle = styled(Input)`
     border-left: none;
     background-color: rgb(232, 240, 254);
     outline: none;
-    font-size: 0.9em; /* Thêm kích thước chữ */
-    color: #333; /* Thêm màu chữ */
+    font-size: 0.9em;
+    color: #333;
     font-weight: 100;
     width: 94.5%;
     display: block;
