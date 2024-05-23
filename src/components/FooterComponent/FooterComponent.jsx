@@ -33,9 +33,9 @@ const FooterComponent = () => {
                     <WrapperTextFooter>
                         Navigate
                         <div style={{ display: 'flex', flexDirection: 'column', marginTop:'5px' }}>
-                            <span style={{ fontSize: '12px' }} onClick={handleNavigateHomePage}>Home</span>
-                            <span style={{ fontSize: '12px'  }} onClick={handleNavigateProductPage}>Product</span>
-                            <span style={{ fontSize: '12px' }} onClick={handleNavigateProfilePage}>Profile</span>
+                            <span style={{ fontSize: '12px', cursor:'pointer' }} onClick={handleNavigateHomePage}>Home</span>
+                            <span style={{ fontSize: '12px' , cursor:'pointer' }} onClick={handleNavigateProductPage}>Product</span>
+                            <span style={{ fontSize: '12px' , cursor:'pointer'}} onClick={handleNavigateProfilePage}>Profile</span>
                         </div>
                     </WrapperTextFooter>
                     <WrapperTextFooter>
